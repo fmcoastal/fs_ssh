@@ -414,6 +414,7 @@ int main(int argc, char ** argv)
     int n_threads = 0;
 
     mode=3;
+    if ( argc > 1 ) mode=atoi(argv[1]);
 
     // Initialize Default Values & Data Structures
     memset((void*)&g_db,0,sizeof(datablock));
@@ -439,7 +440,6 @@ int main(int argc, char ** argv)
      else if ( mode == 2 ) 
      {
          printf(" Launch SSH place a file on r750 \n");
- 
      }
      else if (mode == 3) 
      {
