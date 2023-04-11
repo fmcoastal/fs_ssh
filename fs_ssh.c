@@ -15,6 +15,11 @@ datablock *pg_db = &g_db;
 //#define WAI() printf("%d %s-%s\n",__LINE__,__FILE__,__FUNCTION__)
 #define WAI()
 
+int  g_verbose       = {0};
+int  g_port          = {0};
+char g_dst_ip[32]   = {0};
+char g_username[128] = {0};
+char g_password[128] = {0};
 
 #if 0
 References:
@@ -184,7 +189,7 @@ int show_remote_processes(ssh_session session)
  
 //  strcpy(cmd,"ps aux");
 //  strcpy(cmd,"ls -l /sys/class/net ");
-  strcpy(cmd,"echo  1 > /home/fsmith/bld_x86_drivers/BR549 ");
+  strcpy(cmd,"echo  1 > /home/fsmith/depot/fs_expect/BR549 ");
   printf (" %s %s %s\n",GREEN,cmd,NC);
   rc = ssh_channel_request_exec(channel, cmd);
   if (rc != SSH_OK)
@@ -224,14 +229,13 @@ int show_remote_processes(ssh_session session)
 
 
  
-ssh_session fs_ssh_init(void)
-{
+ssh_session fs_ssh_init(char * dst_ip, int port, char * user, char *pass,int verbosity) {
     int rc;
-    int port=22;
-    char pass[] = "fsmith";
-    char user[] = "fsmith";
-    char dst_ip[] = "10.75.47.44";
-    int verbosity ;
+//    int port=22;
+//    char pass[] = "fsmith";
+//    char user[] = "fsmith";
+//    char dst_ip[] = "10.75.47.44";
+//    int verbosity ;
 
     WAI();
     verbosity=SSH_LOG_FUNCTIONS;
@@ -416,6 +420,13 @@ int main(int argc, char ** argv)
     mode=3;
     if ( argc > 1 ) mode=atoi(argv[1]);
 
+    strcpy (g_dst_ip, "10.75.1.87" );
+    strcpy (g_username,"fsmith"); 
+    strcpy (g_password,"fsmith");
+    g_verbose=0;
+    g_port=22;
+
+
     // Initialize Default Values & Data Structures
     memset((void*)&g_db,0,sizeof(datablock));
     pg_db = &g_db;
@@ -500,8 +511,7 @@ int main(int argc, char ** argv)
  
      usleep(100000);  // for now sleep till threads run.  future, rework and      have thread signal it is running!
 
-
-    session=fs_ssh_init();
+    session=fs_ssh_init(g_dst_ip,g_port,g_username,g_password,g_verbose);
     if ( mode == 1) 
     {
 
