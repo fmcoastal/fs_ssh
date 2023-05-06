@@ -4,15 +4,23 @@
 // THIS FILE IS DIFFERENT FOR EACH Project I DO;
 
 
-// the struct below is passed to the two threads.
-typedef struct
-{
-   int done;
-   int fd;
-   frbuff * p_kb_buff;      // ring buffer for keyboard
-   frbuff * p_tx_io_buff;   // ring buffer for tx I_O - serial or ssh
-   frbuff * p_rx_io_buff;   // ring buffre for rx I_O - serial or ssh
-}datablock;
+#define DEBUG_CFG_DATA_SSH  0x0001
+#define DEBUG_TX_RX_SSH     0x0002
+#define DEBUG_RX_RS232      0x0004
+#define DEBUG_TX_RS232      0x0008
+#define DEBUG_RX_KB         0x0010
+#define DEBUG(x)   if ((g_Debug & x) == x)
+extern uint64_t  g_Debug ;
+
+#define V_SILENT      0
+#define V_NORMAL      1
+#define V_LOG         1
+#define V_INFORMATION 2
+#define V_WARNING     2
+#define V_DEBUG       3
+#define VERBOSE(x)  if ( g_Verbose >= x)
+extern uint64_t  g_Verbose ;
+
 
 
 
