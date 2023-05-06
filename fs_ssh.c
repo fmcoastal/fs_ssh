@@ -17,8 +17,6 @@
 
 kb_data * gpkb;
 
-#define STANDALONE_SSH
-
 
 
 
@@ -503,7 +501,7 @@ char NC[]      = { 0x1b,'[','0','m',0x00 };
 
 fs_ssh_data * gp_ssh;
 
-uint64_t g_Debug;
+int g_Debug;
 uint64_t  g_error = 0;
 // need to use the escape key to send special charactes
 // this is because getchar does not return Ctrl Sequences
